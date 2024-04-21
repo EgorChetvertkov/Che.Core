@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Che.Result.Exceptions;
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace Che.Result;
 public sealed class Result<T>
@@ -15,12 +17,12 @@ public sealed class Result<T>
     {
         if (value is null && error.IsNone)
         {
-            throw new ArgumentException("Value and Error cannot both be null");
+            throw new BadResultException("It is impossible not to fill in the error and the object at the same time");
         }
 
         if (value is not null && !error.IsNone)
         {
-            throw new ArgumentException("Value and Error cannot both be non-null");
+            throw new BadResultException("The result cannot contain both an error and an object at the same time");
         }
 
         Value = value;
